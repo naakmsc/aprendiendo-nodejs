@@ -30,19 +30,36 @@
 // console.log(edad6);
 
 
-//Funciones CallBack
+// //Funciones CallBack
 
-function mensaje(n1,n2,callback){
-    let resultado = n1 + n2;
-    console.log("Mensaje antes de la llamada Callback");
-    callback(resultado);
-}
+// function mensaje(n1,n2,callback){
+//     let resultado = n1 + n2;
+//     console.log("Mensaje antes de la llamada Callback");
+//     callback(resultado);
+// }
 
-function saludo(res){
-    console.log(`Resultado ${res}`);
-}
+// function saludo(res){
+//     console.log(`Resultado ${res}`);
+// }
 
-// mensaje(5,8,saludo);
+// // mensaje(5,8,saludo);
 
-setTimeout(()=>console.log("Esto se va a ejecutar luego de 3 segundos")
-,3000);
+// setTimeout(()=>console.log("Esto se va a ejecutar luego de 3 segundos")
+// ,3000);
+
+const mensaje = new Promise((resolve,reject)=>{
+    setTimeout(()=>{
+        if(false)
+            resolve("Hello Resolve");
+        else
+            reject("Error hello");
+    },3000);
+});
+
+mensaje
+    .then(sms=>{
+        console.log(sms);
+    })
+    .catch(error =>{
+        console.log(error);
+    });
