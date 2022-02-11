@@ -47,19 +47,44 @@
 // setTimeout(()=>console.log("Esto se va a ejecutar luego de 3 segundos")
 // ,3000);
 
-const mensaje = new Promise((resolve,reject)=>{
-    setTimeout(()=>{
-        if(false)
-            resolve("Hello Resolve");
-        else
-            reject("Error hello");
-    },3000);
-});
+// const mensaje = new Promise((resolve,reject)=>{
+//     setTimeout(()=>{
+//         if(false)
+//             resolve("Hello Resolve");
+//         else
+//             reject("Error hello");
+//     },3000);
+// });
 
-mensaje
-    .then(sms=>{
-        console.log(sms);
+// mensaje
+//     .then(sms=>{
+//         console.log(sms);
+//     })
+//     .catch(error =>{
+//         console.log(error);
+//     });
+
+function mensaje(){
+    return new Promise((resolve,reject)=>{
+        setTimeout(()=>{
+            if(true)
+                resolve("Funcionando luego de 3 segundos");
+            else
+                reject("Hubo un error");
+        },3000);
+    });
+}
+
+async function llamadaAsync(){
+    const resultado = await mensaje();
+    console.log("Llamando...");
+    return resultado;
+}
+
+llamadaAsync()
+    .then((x)=>{
+        console.log(x);
     })
-    .catch(error =>{
-        console.log(error);
+    .catch((e)=>{
+        console.log(e);
     });
