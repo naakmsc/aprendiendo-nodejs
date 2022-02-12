@@ -30,13 +30,38 @@
 //     else console.log("Resultado: ",files);
 // });
 
-const EventEmitter = require("events");
-const emitter = new EventEmitter();
+// //Modulo Eventos
+// const EventEmitter = require("events");
+// const emitter = new EventEmitter();
 
-//Registrar el Listener
-emitter.on("mensajeLoger",(args)=>{
-    console.log("Listener llamado...",args.id);
+// //Registrar el Listener
+// emitter.on("mensajeLoger",(args)=>{
+//     console.log("Listener llamado...",args.id);
+// });
+
+// //Registrar el evento
+// emitter.emit("mensajeLoger",{id:1,url:"wwww.google.com"});
+
+
+//Modulo HTTP
+
+const http = require("http");
+const server = http.createServer((req,res)=>{
+    if(req.url=== "/"){
+        res.write("hello mundo");
+        res.end();
+    }
+
+    if(req.url === "/api/productos"){
+        res.write(JSON.stringify(["mouse","teclado","cpu"]));
+        res.end();
+    }
 });
 
-//Registrar el evento
-emitter.emit("mensajeLoger",{id:1,url:"http://wwww.google.com"});
+// server.on("connection",(puerto) =>{
+//     console.log("nueva conexion...");
+// });
+
+server.listen(3000);
+
+console.log("Servidor escuchando....");
