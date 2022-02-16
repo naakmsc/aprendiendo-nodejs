@@ -1,5 +1,6 @@
 const express = require("express");
 const app = express();
+const Joi = require("@hapi/joi");
 require("dotenv").config();
 app.use(express.json());
 // app.get(); //Peticion
@@ -31,22 +32,56 @@ app.get("/api/usuarios/:id",(req,res)=>{
 
 app.post("/api/usuarios",(req,res)=>{
     //Validar datos
-    if(!req.body.nombre || req.body.nombre.length <= 2){
-        res.status(404).send("Debe ingresar un nombre\n Debe ingresar un nombre minimo de 3 letras");
+    const schema = Joi.object({
+        nombre:Joi
+            .string()
+            .min(3)
+            .required()
+    });
+
+    const {error, value} = schema.validate({nombre:req.body.nombre});
+    
+    if(!error){
+        //procesar datos
+        const usuario = {
+            id : usuarios.length + 1,
+            nombre : value
+        };
+        usuarios.push(usuario);
+        res.send(usuario);
+    }else{
+        const mensaje = error.details[0].message
+        console.log(error.details[0].context.limit);
+        res.status(400).send(mensaje);
+    }
+});
+
+app.put("/api/usuarios/:id",(req,res)=>{
+    //Si existe un valor
+    let usuario = usuarios.find(u => u.id === parseInt(req.params.id));
+    if(!usuario){
+        res.status(404).send("El usuario no fue encontrado");
         return;
     }
 
-    //procesar datos
-    const usuario = {
-        id : usuarios.length + 1,
-        nombre : req.body.nombre
-    };
-    usuarios.push(usuario);
-    res.send(usuario);
+        const schema = Joi.object({
+            nombre:Joi.string().min(3).required()
+        });
+    
+        const {error,value} = schema.validate({nombre:req.body.nombre});
+        
+        if(error){
+            const mensaje = error.details[0].message
+            res.status(400).send(mensaje);
+            return;
+        }
+
+        usuario.nombre = value.nombre;
+        res.send(usuarios);
 });
 
-const port = process.env.PORT || 3000;
 
+const port = process.env.PORT || 3000;
 app.listen(port,()=>{
     console.log(`Escuchando en el puerto ${port}`);
 });
