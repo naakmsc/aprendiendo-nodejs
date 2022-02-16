@@ -30,6 +30,13 @@ app.get("/api/usuarios/:id",(req,res)=>{
 });
 
 app.post("/api/usuarios",(req,res)=>{
+    //Validar datos
+    if(!req.body.nombre || req.body.nombre.length <= 2){
+        res.status(404).send("Debe ingresar un nombre\n Debe ingresar un nombre minimo de 3 letras");
+        return;
+    }
+
+    //procesar datos
     const usuario = {
         id : usuarios.length + 1,
         nombre : req.body.nombre
