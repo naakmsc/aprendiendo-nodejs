@@ -6,6 +6,12 @@ require("dotenv").config();
 // app.put(); //Actualizacion
 // app.delete(); //Eliminacion
 
+const usuarios = [
+    {id: 1, nombre: "Jai"},
+    {id: 2, nombre: "Isai"},
+    {id: 3, nombre: "Oscar"},
+];
+
 app.get("/",(req,res)=>{
     res.send("Hola Mundo desde Express...");
 });
@@ -14,8 +20,12 @@ app.get("/api/usuarios",(req,res)=>{
     res.send(["hello",["Mundo"]]);
 });
 
-app.get("/api/usuarios/:years/:month",(req,res)=>{
-    res.send(req.params);
+app.get("/api/usuarios/:id",(req,res)=>{
+    let usuario = usuarios.find(u => u.id === parseInt(req.params.id));
+    if(!usuario)
+        res.status(404).send("El usuario no fue encontrado");
+    else
+        res.send(usuario);
 });
 
 const port = process.env.PORT || 3000;
