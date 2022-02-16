@@ -1,6 +1,7 @@
 const express = require("express");
 const app = express();
 require("dotenv").config();
+app.use(express.json());
 // app.get(); //Peticion
 // app.post(); //Envio de datos
 // app.put(); //Actualizacion
@@ -17,7 +18,7 @@ app.get("/",(req,res)=>{
 });
 
 app.get("/api/usuarios",(req,res)=>{
-    res.send(["hello",["Mundo"]]);
+    res.send(usuarios);
 });
 
 app.get("/api/usuarios/:id",(req,res)=>{
@@ -26,6 +27,15 @@ app.get("/api/usuarios/:id",(req,res)=>{
         res.status(404).send("El usuario no fue encontrado");
     else
         res.send(usuario);
+});
+
+app.post("/api/usuarios",(req,res)=>{
+    const usuario = {
+        id : usuarios.length + 1,
+        nombre : req.body.nombre
+    };
+    usuarios.push(usuario);
+    res.send(usuario);
 });
 
 const port = process.env.PORT || 3000;
