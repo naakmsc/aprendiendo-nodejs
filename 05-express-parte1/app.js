@@ -1,13 +1,18 @@
 const express = require("express");
 const app = express();
 const Joi = require("@hapi/joi");
-const logger = require("./logger");
+// const logger = require("./logger");
+const morgan = require("morgan");
 require("dotenv").config();
+
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
+app.use(express.static("public"));
+// app.use(logger);
 
-
-app.use(logger);
+//Uso de un middleware de terceros
+app.use(morgan("tiny"));
+console.log("Morgan habilitado...");
 
 const usuarios = [
     {id: 1, nombre: "Jai"},
