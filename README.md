@@ -21,7 +21,9 @@ Aprendiendo Node js
 
 ## NPM
 - Instalar un paquete al proyecto:
-> npm install paquete
+``` console
+    npm install paquete
+```
 
 ## Express
 - Instalar Exppress de forma local `npm install express --save`
