@@ -1,10 +1,18 @@
 # aprendiendo-nodejs
-Aprendiendo Node js
-
-- Inicializar un proyecto con Node Package Control `node init`
-
-- Version de Node `node -v`
-- Instalar un paquete con npm `npm i paquete`
+Node js, es un entorno de desarrollo Javascript fuera del navegador. Podemos correr Javascript en modo servidor.
+- Version de Node 
+    ```bash
+        node -v
+    ```
+## NPM
+- Inicializar un proyecto con Node Package Control 
+```bash 
+    node init
+```
+- Instalar un paquete con npm 
+    ```bash 
+        npm i paquete
+    ```
 - Instalar un paquete global con npm `npm install -g paquete`
 - Instalar un paquete local para desarrollo `node install --save-dev paquete` o `npm i -D paquete`
 - Instalar un paquete abreviado `npm i paquete`
@@ -21,9 +29,12 @@ Aprendiendo Node js
 
 ## NPM
 - Instalar un paquete al proyecto:
-``` console
+``` bash
     npm install paquete
 ```
+
+
+
 
 ## Express
 - Instalar Exppress de forma local `npm install express --save`
