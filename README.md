@@ -19,5 +19,9 @@ Aprendiendo Node js
 - Desinstalar un paquete de node `npm uninstaller paquete` o `npm un paquete`
 - Desinstalar un paquete global `npm uninstaller -g paquete` o `npm un -g paquete`
 
+## NPM
+- Instalar un paquete al proyecto:
+> npm install paquete
+
 ## Express
 - Instalar Exppress de forma local `npm install express --save`

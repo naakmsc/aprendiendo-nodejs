@@ -1,14 +1,22 @@
 const express = require("express");
 const app = express();
 const Joi = require("@hapi/joi");
+// require("dotenv").config();
+const config = require("config");
 // const logger = require("./logger");
 const morgan = require("morgan");
-require("dotenv").config();
+
 
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use(express.static("public"));
 // app.use(logger);
+
+//Configuracion de entornos
+console.log("Aplicacion: "+config.get("nombre"));
+console.log("DB Server: "+config.get("configDB.host"));
+console.log("Puerto: "+process.env.PORT);
+
 
 //Uso de un middleware de terceros
 app.use(morgan("tiny"));
