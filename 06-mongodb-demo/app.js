@@ -17,9 +17,9 @@ const Curso = mongoose.model("Curso",cursoSchema);
 async function crearCurso(){
     
     const curso = new Curso({
-        nombre:"JavaScript",
-        autor: "Grover",
-        etiquetas:["Desarrollo web","front end"],
+        nombre:"React JS",
+        autor: "Sasha Brown",
+        etiquetas:["Programacion","framework"],
         publicado: true
     });
 
@@ -32,12 +32,42 @@ async function crearCurso(){
 //     .catch(e=>console.log(e));
 
 async function listarCursos(){
+
+    //eq (equal, igual)
+    //ne (not equal, no igual)
+    //gt (greater than, mayor que)
+    //gte (greater than or equal to, mayor o igual que)
+    //lt (less than, menor que)
+    //lte (less than or equal to, menor o igual que)
+    // in
+    // nin (not in)
+    //or
+    //and
+
+    const numPage = 2;
+    const sizePage = 4;
     const cursos = await Curso
-        .find({publicado:true})
-        .limit(10)
-        .sort({autor:-1})
-        .select({nombre:1,etiquetas:1});
+        // .find({publicado:true})
+        // .find({precio: {$gte:10,$lte:30}})
+        // .find({precio:{$in:[10,15,25]}})
+        .find()
+        // .and([{autor:"Juan"},{publicado:false}])
+        // .or([{autor:"Grover"},{publicado:true}])
+        //Empiece con las letras
+        // .find({autor:/^Jua/})
+        //Cuando termina en las letras
+        // .find({autor:/an$/})
+        //Cuando un campo tiene un contenido especifico
+        // .find({autor:/.*ua.*/})
+        .skip((numPage-1 )*sizePage)
+        .limit(sizePage)
+        .sort({autor:1})
+        .select({nombre:1,autor:1});
     console.log(cursos);
 }
 
-listarCursos();
+listarCursos()
+    .then(console.log("correcto"))
+    .catch((e)=>{
+    console.log("Errorcito: >>>>"+e);
+});
