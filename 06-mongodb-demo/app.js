@@ -91,15 +91,32 @@ async function actualizarCurso(id){
     // const resultado = await curso.save();
     // return resultado;
 
-    const resultado = await Curso.update({_id: id},{
-        $set:{
-            autor: "Groverito",
-            publicado : true
+    // const resultado = await Curso.update({_id: id},{
+    //     $set:{
+    //         autor: "Groverito",
+    //         publicado : true
+    //     }
+    // });
+    // return resultado;
+
+    const result = await Curso.findByIdAndUpdate(id,{
+        $set: {
+            autor : "Amanda",
+            publicado : false
         }
-    });
-    return resultado;
+    },{new : true});
+    return result;
 }
 
-actualizarCurso("62107d5844aee565f0608188")
-    .then(res => {console.log("Actualizado :"+res)})
-    .catch(err => {console.log("Error >>>> :"+err)});
+// actualizarCurso("62108034902239090ec0d315")
+//     .then(res => {console.log("Actualizado :"+res)})
+//     .catch(err => {console.log("Error >>>> :"+err)});
+
+
+async function eliminarDocumento(id){
+    return await Curso.deleteOne({_id:id});
+}
+
+eliminarDocumento("6210a67552eb61bc45a3b068")
+    .then((e) => {console.log("Resultado: "+e)})
+    .catch(error => console.log("Errorcito: >>>>"+error));
