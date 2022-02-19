@@ -66,8 +66,31 @@ async function listarCursos(){
     console.log(cursos);
 }
 
-listarCursos()
-    .then(console.log("correcto"))
-    .catch((e)=>{
-    console.log("Errorcito: >>>>"+e);
-});
+// listarCursos()
+//     .then(console.log("correcto"))
+//     .catch((e)=>{
+//     console.log("Errorcito: >>>>"+e);
+// });
+
+
+async function actualizarCurso(id){
+    const curso = await Curso.findById(id);
+    if(!curso){
+        console.log("El curso no existe");
+        return;
+    }
+    // curso.publicado = true;
+    // curso.autor = "Jai Vas";
+
+    curso.set({
+        publicado : true,
+        autor: "Jai Ger"
+    });
+
+    const resultado = await curso.save();
+    return resultado;
+}
+
+actualizarCurso("62107d5844aee565f0608188")
+    .then(res => {console.log("Actualizado :"+res)})
+    .catch(err => {console.log("Error >>>> :"+err)});
