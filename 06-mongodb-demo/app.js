@@ -14,6 +14,7 @@ const cursoSchema = new mongoose.Schema({
 
 const Curso = mongoose.model("Curso",cursoSchema);
 
+
 async function crearCurso(){
     
     const curso = new Curso({
@@ -74,20 +75,28 @@ async function listarCursos(){
 
 
 async function actualizarCurso(id){
-    const curso = await Curso.findById(id);
-    if(!curso){
-        console.log("El curso no existe");
-        return;
-    }
-    // curso.publicado = true;
-    // curso.autor = "Jai Vas";
+    // const curso = await Curso.findById(id);
+    // if(!curso){
+    //     console.log("El curso no existe");
+    //     return;
+    // }
+    // // curso.publicado = true;
+    // // curso.autor = "Jai Vas";
 
-    curso.set({
-        publicado : true,
-        autor: "Jai Ger"
+    // curso.set({
+    //     publicado : true,
+    //     autor: "Jai Ger"
+    // });
+
+    // const resultado = await curso.save();
+    // return resultado;
+
+    const resultado = await Curso.update({_id: id},{
+        $set:{
+            autor: "Groverito",
+            publicado : true
+        }
     });
-
-    const resultado = await curso.save();
     return resultado;
 }
 
