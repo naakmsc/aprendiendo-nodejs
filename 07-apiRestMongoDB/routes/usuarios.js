@@ -1,41 +1,84 @@
 const express = require("express");
 const Usuario = require("../models/usuario_model");
 const ruta = express.Router();
+const Joi = require("@hapi/joi");
+
+const schema = Joi.object({
+    nombre: Joi.string()
+        .min(3)
+        .max(10)
+        .required(),
+    password: Joi.string()
+        .pattern(/^[a-zA-Z0-9]{3,30}$/),
+    email: Joi.string()
+        .email({minDomainSegments:2,tlds:{ allow:["com","net"]}})
+});
 
 ruta.get("/",(req,res)=>{
-    res.json("listo el GET de usuarios.");
+    let result = listarUsuariosActivos();
+
+    result
+        .then(usuarios=>{
+            res.json(usuarios);
+        })
+        .catch(error=>{
+            res.status(400).json({
+                ERROR:error
+            });
+        });
 });
 
 ruta.post("/",(req,res)=>{
-    let resultado = crearUsuario(req.body);
+    let body = req.body;
 
-    resultado
-        .then(user => {
-            res.json({
-                valor: user
+    const {error,value} = schema.validate({nombre:body.nombre, email:body.email});
+
+    if(!error){
+        let resultado = crearUsuario(body);
+        resultado
+            .then(user => {
+                res.json({
+                    valor: user
+                });
+            })
+            .catch(err => {
+                res.status(400).json({
+                    Error: res
+                });
             });
-        })
-        .catch(err => {
-            res.status(400).json({
-                Error: res
-            });
+    }else{
+        res.status(400).json({
+            ERROR:error
         });
+    }
+    
 });
 
 ruta.put("/:email",(req,res)=>{
-    let result = actualizarUsuario(req.params.email,req.body);
 
-    result
-        .then(response=>{
-            res.json({
-                value:response
+    const {error, value} = schema.validate({nombre:req.body.nombre});
+
+    if(!error){
+        let result = actualizarUsuario(req.params.email,req.body);
+
+        result
+            .then(response=>{
+                res.json({
+                    value:response
+                });
+            })
+            .catch(e => {
+                res.status(400).json({
+                    ERROR: e
+                });
             });
+    }else{
+        res.status(400).json({
+            ERROR:error
         })
-        .catch(e => {
-            res.status(400).json({
-                ERROR: e
-            });
-        });
+    }
+
+
 });
 
 ruta.delete("/:email",(req,res)=>{
@@ -53,6 +96,10 @@ ruta.delete("/:email",(req,res)=>{
         });
 });
 
+async function listarUsuariosActivos(){
+    let usuarios = await Usuario.find({"estado":true});
+    return usuarios;
+}
 
 async function crearUsuario(body){
     let usuario = new Usuario({
@@ -65,7 +112,7 @@ async function crearUsuario(body){
 }
 
 async function actualizarUsuario(email,body){
-    let usuario = await Usuario.findOneAndUpdate(email,{
+    let usuario = await Usuario.findOneAndUpdate({"email":email},{
         $set: {
             nombre:body.nombre,
             password: body.password
@@ -75,7 +122,7 @@ async function actualizarUsuario(email,body){
 }
 
 async function desactivarUsuario(email){
-    let usuario = await Usuario.findOneAndUpdate(email,{
+    let usuario = await Usuario.findOneAndUpdate({"email":email},{
         $set: {
             estado:false
         }
