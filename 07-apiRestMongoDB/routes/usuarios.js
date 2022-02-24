@@ -31,6 +31,17 @@ ruta.get("/",(req,res)=>{
 ruta.post("/",(req,res)=>{
     let body = req.body;
 
+    Usuario.findOne({email:req.body.email},(error,user)=>{
+        if(error){
+            return res.status(400).json({error:"Server error"});
+        }
+        if(user){
+            return res.status(400).json({
+                msj: "Usuario ya existe"
+            });
+        }
+    });
+
     const {error,value} = schema.validate({nombre:body.nombre, email:body.email});
 
     if(!error){
