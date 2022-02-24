@@ -38,7 +38,8 @@ ruta.post("/",(req,res)=>{
         resultado
             .then(user => {
                 res.json({
-                    valor: user
+                    nombre: user.nombre,
+                    email: user.email
                 });
             })
             .catch(err => {
@@ -64,7 +65,8 @@ ruta.put("/:email",(req,res)=>{
         result
             .then(response=>{
                 res.json({
-                    value:response
+                    nombre :response.nombre,
+                    email: response.email
                 });
             })
             .catch(e => {
@@ -86,7 +88,8 @@ ruta.delete("/:email",(req,res)=>{
     result
         .then(valor => {
             res.json({
-                usuario:valor
+                nombre: valor.nombre,
+                email: valor.email
             });
         })
         .catch(error => {
@@ -97,7 +100,8 @@ ruta.delete("/:email",(req,res)=>{
 });
 
 async function listarUsuariosActivos(){
-    let usuarios = await Usuario.find({"estado":true});
+    let usuarios = await Usuario.find({"estado":true})
+        .select({nombre:1,email:1});
     return usuarios;
 }
 
