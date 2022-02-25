@@ -1,7 +1,9 @@
 const express = require("express");
+const bcrypt = require("bcrypt");
 const Usuario = require("../models/usuario_model");
 const ruta = express.Router();
 const Joi = require("@hapi/joi");
+
 
 const schema = Joi.object({
     nombre: Joi.string()
@@ -88,7 +90,7 @@ ruta.put("/:email",(req,res)=>{
     }else{
         res.status(400).json({
             ERROR:error
-        })
+        });
     }
 
 
@@ -120,7 +122,7 @@ async function crearUsuario(body){
     let usuario = new Usuario({
         email: body.email,
         nombre: body.nombre,
-        password: body.password
+        password: bcrypt.hashSync(body.password,10)
     });
 
     return await usuario.save();
