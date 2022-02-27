@@ -1,4 +1,5 @@
 const express = require("express");
+const config = require("config");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const Usuario = require("../models/usuario_model");
@@ -21,7 +22,7 @@ ruta.post("/",(req,res)=>{
                 //Otra forma
                 const jwtoken = jwt.sign({
                     data:{_id:datos._id,nombre:datos.nombre,email:datos.email}
-                },"secret",{expiresIn: 1 * 60});
+                },config.get("configToken.SEED"),{expiresIn: config.get("configToken.expiration")});
 
                 res.send({
                     usuario:{

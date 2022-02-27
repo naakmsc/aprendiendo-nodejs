@@ -3,9 +3,10 @@ const cursos = require("./routes/cursos");
 const auth = require("./routes/auth");
 const express = require("express");
 const mongoose = require("mongoose");
+const config = require("config");
 
 //Conectarnos a la BD
-mongoose.connect("mongodb://localhost:27017/demo")
+mongoose.connect(config.get("configDB.HOST"))
     .then(() => console.log("Base Conectada"))
     .catch((e) => console.log("Error DB: >>>>",e));
 

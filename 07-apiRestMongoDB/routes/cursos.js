@@ -1,9 +1,10 @@
 const express = require("express");
 const Curso = require("../models/curso_model");
+const verificarToken = require("../middlewares/auth");
 const ruta = express.Router();
 const Joi = require("@hapi/joi");
 
-ruta.get("/",(req,res)=>{
+ruta.get("/",verificarToken,(req,res)=>{
     let result = listarCursosActivos();
     result
         .then(cursos => {
@@ -25,7 +26,7 @@ const schema = Joi.object({
 });
 
 
-ruta.post("/",(req,res)=>{
+ruta.post("/",verificarToken,(req,res)=>{
     let body = req.body;
 
     const {error, value} = schema.validate({titulo : body.titulo,descripcion: body.descripcion});
@@ -50,7 +51,7 @@ ruta.post("/",(req,res)=>{
     }
 });
 
-ruta.put("/:id",(req,res)=>{
+ruta.put("/:id",verificarToken,(req,res)=>{
     let body = req.body;
 
     const {error, value} = schema.validate({titulo:body.titulo,descripcion:body.descripcion});
@@ -78,7 +79,7 @@ ruta.put("/:id",(req,res)=>{
 
 });
 
-ruta.delete("/:id",(req,res)=>{
+ruta.delete("/:id",verificarToken,(req,res)=>{
     let result = desactivarCurso(req.params.id);
     result
         .then(curso => {
