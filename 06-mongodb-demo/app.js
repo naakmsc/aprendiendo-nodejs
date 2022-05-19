@@ -20,9 +20,9 @@ const Curso = mongoose.model("Curso",cursoSchema);
 async function crearCurso(){
     //Creando el objeto
     const curso = new Curso({
-        nombre: "C#",
-        autor: "Isai",
-        etiquetas: ["Desarrollo Desktop","Server App"],
+        nombre: "CSS",
+        autor: "Burrix",
+        etiquetas: ["Web","Internet","Style"],
         publicado:true
     });
     
@@ -31,7 +31,7 @@ async function crearCurso(){
     console.log(result);
 }
 
-// crearCurso();4
+// crearCurso();
 
 //Creando la consulta con async
 async function listarCursos(){
@@ -78,4 +78,39 @@ async function listarCursos(){
     console.log(result);
 }
 
-listarCursos();
+// listarCursos();
+
+//Actualizar
+async function actualizarCurso(id){
+    const curso = await Curso.findById(id);
+    if(!curso) {
+        console.log("Curso no encontrado");
+        return;
+    }
+    curso.autor = "Balmore";
+    curso.publicado = false;
+
+    // curso.set({
+    //     autor : "Salinas",
+    //     publicado : false
+    // });
+
+    const result = await curso.save();
+    console.log("Actualizado ",result);
+}
+
+// actualizarCurso("6285e1cbdf806b151561c04d");
+
+async function actualizarCurso2(id){
+    const result = await Curso.updateOne({_id:id},{
+        $set:{
+            nombre: "Estilos CSS",
+            autor: "Salim",
+            publicado : true
+        }
+    });
+
+    console.log(result);
+}
+
+actualizarCurso2("6285e1cbdf806b151561c04d");
