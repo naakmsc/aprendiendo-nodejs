@@ -43,6 +43,9 @@ async function listarCursos(){
     // lte : menor o igual a que
     // in : dentro de
     // nin : no dentro de
+
+    //or
+    //and
     const result = await Curso
         .find()
         // .find({publicado:tue})
@@ -55,9 +58,17 @@ async function listarCursos(){
         // .find({precio:{$gte:10,$lte:30}})
         // .find({precio:{$in:[20,10,15]}})
         // .find({precio:{$nin:[5,8,9]}})
+        // .and([{autor:"Naakmsc"},{publicado:false}])
+        // .or([{autor:"Naakmsc"},{publicado:false}])
+    //Empiece con con Naak
+        // .find({autor:/^Naak/})
+    //Cuando termina en una palabra o expresion
+        // .find({autor:/i$/})
+    //Cuando tiene un contenido especifico
+        .find({autor:/.*.ey*/})
         .limit(4)
         .sort({autor:-1})
-        .select({nombre:1,etiquetas:1});
+        .select({nombre:1,etiquetas:1,autor:1});
     console.log(result);
 }
 
