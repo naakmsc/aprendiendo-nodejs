@@ -113,4 +113,24 @@ async function actualizarCurso2(id){
     console.log(result);
 }
 
-actualizarCurso2("6285e1cbdf806b151561c04d");
+// actualizarCurso2("6285e1cbdf806b151561c04d");
+
+async function actualizarCurso3(id){
+    const result = await Curso.findByIdAndUpdate(id,{
+        $set: {
+            nombre: "Sass",
+            autor: "Camerun",
+            publicado : false
+        }
+    },{new:true});
+    console.log(result);
+}
+
+// actualizarCurso3("6285e1cbdf806b151561c04d");
+
+async function eliminarCurso(id){
+    const result = await Curso.deleteOne({_id: id});
+    // const result = await Curso.findByIdAndDelete(id);
+    console.log(result);
+}
+eliminarCurso("6285e1cbdf806b151561c04d");
