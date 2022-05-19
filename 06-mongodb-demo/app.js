@@ -46,6 +46,9 @@ async function listarCursos(){
 
     //or
     //and
+    const numberPage = 2;
+    const sizePage = 5;
+
     const result = await Curso
         .find()
         // .find({publicado:tue})
@@ -66,7 +69,10 @@ async function listarCursos(){
         // .find({autor:/i$/})
     //Cuando tiene un contenido especifico
         .find({autor:/.*.ey*/})
-        .limit(4)
+    //Paginacion
+        .skip((numberPage -1)*sizePage)
+        .limit(sizePage)
+    //Fin Paginacion
         .sort({autor:-1})
         .select({nombre:1,etiquetas:1,autor:1});
     console.log(result);
