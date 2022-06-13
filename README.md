@@ -141,6 +141,12 @@ Node js, es un entorno de desarrollo Javascript fuera del navegador. Podemos cor
         console.log(`Servidor corriendo en el puerto ${port}`);
     });
 ```
+- Cambiar el puerto en CMD, PowerShell, (Linux,Bash,Mac)
+```bash 
+    set PORT=3000
+    $env:PORT=3000
+    exports PORT=3000
+```
 - Usar el metodo get
 ```Javascript
     //Metodo para mostrar al cliente datos solicitados

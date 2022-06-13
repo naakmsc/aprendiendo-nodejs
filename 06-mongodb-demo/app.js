@@ -20,10 +20,10 @@ const Curso = mongoose.model("Curso",cursoSchema);
 async function crearCurso(){
     //Creando el objeto
     const curso = new Curso({
-        nombre: "CSS",
-        autor: "Burrix",
-        etiquetas: ["Web","Internet","Style"],
-        publicado:true
+        nombre: "React JS",
+        autor: "Blindon",
+        etiquetas: ["Web","Programming","Front end"],
+        publicado:false
     });
     
     //Haciendo la peticion con await
@@ -31,7 +31,7 @@ async function crearCurso(){
     console.log(result);
 }
 
-// crearCurso();
+crearCurso();
 
 //Creando la consulta con async
 async function listarCursos(){
@@ -133,4 +133,4 @@ async function eliminarCurso(id){
     // const result = await Curso.findByIdAndDelete(id);
     console.log(result);
 }
-eliminarCurso("6285e1cbdf806b151561c04d");
+// eliminarCurso("6285e1cbdf806b151561c04d");
