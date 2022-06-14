@@ -1,1 +1,1 @@
-mongod --dbpath c:/data/mongodb4/db/
+mongod --dbpath c:/data/db/
