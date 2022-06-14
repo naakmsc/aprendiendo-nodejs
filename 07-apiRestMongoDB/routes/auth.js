@@ -1,4 +1,6 @@
 const express = require("express");
+const config = require("config");
+const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const Usuario = require("../models/usuario_model");
 // const Joi = require("@hapi/joi");
@@ -10,9 +12,20 @@ ruta.post("/",(req,res) => {
             if(datos){
                 const passValido = bcrypt.compareSync(req.body.password,datos.password);
                 if(!passValido){
-                    res.status(400).json({error:"ok",msj:"Usuario o Contraseña incorrecta."});
+                    return res.status(400).json({error:"ok",msj:"Usuario o Contraseña incorrectaaaaa"});
+                    console.log("pasa1");
                 }else{
-                    res.json(datos);
+                    const jwtoken = jwt.sign({_id:datos._id,nombre:datos.nombre,email:datos.email},config.get("configToken.SEED"),{expiresIn:config.get("configToken.expiration")});
+                    // res.json(datos);
+                    // res.send(jwtoken);
+                    res.json({
+                        user:{
+                            _id: datos._id,
+                            nombre: datos.nombre,
+                            email:datos.email
+                        },
+                        token:jwtoken
+                    });
                 }
                 
             }else{
