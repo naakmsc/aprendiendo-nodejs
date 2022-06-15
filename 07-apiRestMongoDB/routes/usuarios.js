@@ -39,7 +39,11 @@ ruta.post("/",(req,res)=>{
                 return res.status(400).json({Mensaje:"Email ya existe"});
                 
             }else{
-                const {error, value} = schema.validate({nombre:body.nombre,password:body.password,email:body.email});
+                
+            }
+        });
+
+            const {error, value} = schema.validate({nombre:body.nombre,password:body.password,email:body.email});
                 if(!error){
                     let result = crearUsuario(body);
 
@@ -56,8 +60,6 @@ ruta.post("/",(req,res)=>{
                 }else{
                     res.status(400).json({ERROR:error});
                 }
-            }
-        });
 });
 
 ruta.put("/:email",verificarToken,(req,res)=>{
