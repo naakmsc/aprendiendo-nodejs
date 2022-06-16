@@ -4,12 +4,8 @@ const verificarToken = require("../middlewares/auth");
 const ruta = express.Router();
 
 ruta.get("/",verificarToken,(req,res) => {
-
-    return res.json({
-        usuario:req.usuario
-    });
     
-    let result = listarCursos();
+    let result = listarCursos(req);
     result.then(cursos => {
         res.json({cursos});
     }).catch(error => {
@@ -19,7 +15,7 @@ ruta.get("/",verificarToken,(req,res) => {
 
 //Registrando Curso
 ruta.post("/",verificarToken,(req,res) => {
-    let result = crearCurso(req.body);
+    let result = crearCurso(req);
 
     result.then(valor => {
         res.json({curso:valor});
@@ -50,10 +46,12 @@ ruta.delete("/:id",verificarToken,(req,res) => {
 });
 
 //Funcion para crear
-async function crearCurso(body){
+async function crearCurso(req){
     let curso = new Curso({
-        titulo: body.titulo,
-        descripcion: body.desc
+        titulo: req.body.titulo,
+        // autor:req.usuario._id,
+        autor: req.usuario,
+        descripcion: req.body.desc
     });
 
     return await curso.save();
@@ -81,8 +79,10 @@ async function eliminarCurso(id){
 }
 
 //Funcion para listar cursos
-async function listarCursos(){
-    let cursos = await Curso.find();
+async function listarCursos(req){
+    let cursos = await Curso
+    .find()
+    .populate("autor","nombre -_id");
     return cursos;
 }
 
