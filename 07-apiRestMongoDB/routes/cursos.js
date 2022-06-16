@@ -4,6 +4,11 @@ const verificarToken = require("../middlewares/auth");
 const ruta = express.Router();
 
 ruta.get("/",verificarToken,(req,res) => {
+
+    return res.json({
+        usuario:req.usuario
+    });
+    
     let result = listarCursos();
     result.then(cursos => {
         res.json({cursos});

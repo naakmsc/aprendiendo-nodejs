@@ -15,7 +15,9 @@ ruta.post("/",(req,res) => {
                     return res.status(400).json({error:"ok",msj:"Usuario o Contraseña incorrectaaaaa"});
                     console.log("pasa1");
                 }else{
-                    const jwtoken = jwt.sign({_id:datos._id,nombre:datos.nombre,email:datos.email},config.get("configToken.SEED"),{expiresIn:config.get("configToken.expiration")});
+                    const jwtoken = jwt.sign({
+                        usuario:{_id:datos._id,nombre:datos.nombre,email:datos.email}
+                    },config.get("configToken.SEED"),{expiresIn:config.get("configToken.expiration")});
                     // res.json(datos);
                     // res.send(jwtoken);
                     res.json({
